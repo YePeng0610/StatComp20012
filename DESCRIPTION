@@ -1,0 +1,19 @@
+Package: StatComp20012
+Type: Package
+Title: some functions for confidence interval estimation
+Version: 1.0
+Date: 2020-12-19
+Author: Ye Peng
+Maintainer: Ye Peng<1821293593@qq.com>
+Description: Several R functions are included in this package for confidence interval estimation.
+License: GPL (>= 2)
+Imports: Rcpp (>= 1.0.5),Ball,DAAG,MASS,RANN,boot,bootstrap,energy,RcppArmadillo,microbenchmark,nloptr
+LinkingTo: Rcpp
+Encoding: UTF-8
+RoxygenNote: 7.1.1
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+URL: http://github.com/YePeng0610/StatComp20012
+BugReports: http://github.com/YePeng0610/StatComp20012/issues
+
+

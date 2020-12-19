@@ -1,0 +1,1569 @@
+---
+title: "HOMEWORK"
+author: "Ye Peng"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{HOMEWORK}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## HOMEWORK1
+
+## Question 1
+Use the height data of the students to generate a histogram
+
+Data:
+height:(155,167,173,153,152,179,130,159,150,175,161,170,146,169,150,183,165,156,169)
+
+## Answer 1
+```{r echo=FALSE}
+Height<-c(155,167,173,153,152,179,130,159,150,175,161,170,146,169,150,183,165,156,169)
+
+hist(Height,col="yellow",border="black",labels=TRUE,ylim=c(0,7.2))
+```
+
+
+## Question 2
+Use two columns of data to do regression analysis:
+
+
+x=(15,15.2, 15.4, 15.6, 15.8, 16, 16.2, 16.4, 16.6, 16.8)
+
+
+y=(0.01,0.017, 0.019, 0.024, 0.033, 0.036, 0.038, 0.047, 0.052, 0.057)
+
+## Answer 2
+1. Draw the scatter diagram of two columns of data and observe the scatter distribution to determine the function form of the model
+```{r echo=FALSE}
+x <- c(15,15.2, 15.4, 15.6, 15.8, 16, 16.2, 16.4, 16.6, 16.8)
+y <- c(0.01,0.017, 0.019, 0.024, 0.033, 0.036, 0.038, 0.047, 0.052, 0.057)
+plot(x,y)
+```
+
+
+2. It is found that the points are distributed in the vicinity of a straight line, so we decided to adopt the univariate linear regression fitting. The fitting results are as follows:
+
+
+coefficients | value
+-  | -:
+  (Intercept)  |  -0.37769
+X | 0.02585 
+Result  | $y=-0.37769+0.02585x$
+
+3.The results are as follows: 
+
+```{r echo=FALSE}
+
+Estimate<-c(-0.3776909,0.0258485)
+StdError<-c(0.0149228,0.0009379)
+tvalue<-c(-25.31,27.56)
+Pr<-c(6.36e-09,3.24e-09)
+y<-data.frame(Estimate,StdError,tvalue,Pr)
+row.names(y)<-c("Intercept","x")
+knitr::kable(y)
+```
+
+
+## Question 3
+
+Please write the proof and derivation process of binomial theorem
+
+## Answer 3
+
+Using the method of mathematical induction, the equation holds when n = 1
+$$
+ \quad x+y=\left(\begin{array}{l}
+1 \\
+0
+\end{array}\right) x^{0} y^{\prime}+(1) x^{\prime} y^{0}=y+x
+$$
+
+Then, assuming that the equation holds for n-1, the following conclusions are obtained:
+$$
+\begin{aligned}
+(x+y)^{n} &=(x+y)(x+y)^{n-1}=(x+y) \sum_{k=0}^{n-1}\left(\begin{array}{c}
+n-1 \\
+k
+\end{array}\right) x^{k} y^{n-1-k} \\
+&=\sum_{k=0}^{n-1}\left(\begin{array}{c}
+n-1 \\
+k
+\end{array}\right) x^{k+1} y^{n-1-k}+\sum_{k=0}^{n-1}\left(\begin{array}{c}
+n-1 \\
+k
+\end{array}\right) x^{k} y^{n-k}
+\end{aligned}
+$$
+Finally, an iteration is made to get the result:
+$$
+\begin{aligned}
+(x+y)^{n} &=\sum_{i=1}^{n}\left(\begin{array}{c}
+n-1 \\
+i-1
+\end{array}\right) x^{i} y^{n-i}+\sum_{i=0}^{n-1}\left(\begin{array}{c}
+n-1 \\
+i
+\end{array}\right) x^{i} y^{n-i} \\
+&=x^{n}+\sum_{i=1}^{n-1}\left[\left(\begin{array}{c}
+n-1 \\
+i-1
+\end{array}\right)+\left(\begin{array}{c}
+n-1 \\
+i
+\end{array}\right)\right] x^{i} y^{n-i}+y^{n} \\
+&=x^{n}+\sum_{i=1}^{n-1}\left(\begin{array}{c}
+n \\
+i
+\end{array}\right) x^{i} y^{n-i}+y^{n}=\sum_{i=0}^{n}\left(\begin{array}{c}
+n \\
+i
+\end{array}\right) x^{i} y^{n-i}
+\end{aligned}
+$$
+
+
+
+
+
+
+## HOMEWORK2
+
+
+## Exercises 3.3
+<font size=5>The process of deriving the probability inverse transformation:
+
+
+$$
+ F_{X}(X)=1-(\frac{b}{X})^{a}=U\\ 
+\Rightarrow(\frac{b}{X})^{a}=1-U\\ 
+\Rightarrow \frac{b}{X}=(1-U)^{\frac{1}{a}}\\ 
+\Rightarrow X=\frac{b}{(1-U)^{\frac{1}{a}}}\\ 
+\therefore F^{-1}(U)=\frac{b}{(1-U)^{\frac{1}{a}}}
+$$
+```{r}
+n <-1000
+set.seed(5)
+u <- runif(n)
+x <-2/((1-u)^{1/2}) 
+hist(x, prob = TRUE, main = expression(f(x)==8/x^3))
+y <- seq(0, 30, 0.01)
+lines(y, 8/y^3)
+```
+
+
+We can see that the fit between the two is very high, so this random sampling simulation is successful!
+
+## Exercises 3.9
+  We generate 1000 samples according to the required method,and construct the histogram density
+estimate of 1000 samples.By comparing with the probability density function curve given, we  know that the algorithm for simulation from this distribution is suitable!
+
+```{r}
+set.seed(6)
+q <- data.frame(
+  u1<-c(runif(1000, min = -1, max = 1)),
+  u2<-c(runif(1000, min = -1, max = 1)),
+  u3<-c(runif(1000, min = -1, max = 1))
+ )
+d1<-subset(q,abs(u3)>=abs(u2)&abs(u3)>=abs(u1),select=2)
+d2<-subset(q,abs(u3)<abs(u2)|abs(u3)<abs(u1),select=3)
+u<-c(d1,d2,recursive=TRUE,use.names=FALSE)
+
+hist(u, prob = TRUE, main = expression(f(x)==(3/4)*(1-x^2)))
+y <- seq(-1, 1, 0.01)
+lines(y, (3/4)*(1-y^2))
+```
+
+
+
+
+## Exercises 3.10
+
+Since the probability density function of X is:$\ f_e(x)=\frac{3}{4}(1-x^2),|x|\leq1$
+$$\therefore 
+P\{|x| \leqslant u\}=\int_{-u}^{u} \frac{3}{4}\left(1-x^{2}\right) d x=\frac{3}{2} u-\frac{u^{3}}{2}, 0 \leq u \leq 1
+$$
+Known by the construction method of U:$$ |U_1|\sim U(0,1),|U_2|\sim U(0,1),|U_3|\sim U(0,1),and \ they\ are \ independent \ of \ each \ other. \\
+\left\{\left|U_{3}\right| \geqslant\left|U_{2}\right| \right\} \cap\left\{\left|U_{3}\right| \geqslant\left|U_{1}\right|\right\}=event B
+$$
+
+$$The \ three-dimensional\ joint \ probability\ density \ of
+\left(\left|U_{1}\right|,\left|U_{2}\right|,\left|U_{3}\right|\right) \text { is } f(x, y, z)=1,(0 \leqslant x \leqslant 1,0 \leqslant y \leqslant 1,0 \leqslant z \leqslant 1)
+$$
+
+then:
+$$
+\begin{aligned}
+P\{|U| \leqslant u\} &=P\left(\left\{\left|U_{2}\right| \leqslant u\right\} \cap B\right)+P\left(\left\{\left|U_{3}\right| \leqslant u\right\} \cap \bar{B}\right) \\
+&=P\left(\left\{\left|U_{2}\right| \leqslant u\right\} \cap B\right\}+P\left(\left\{\left|U_{3}\right| \leqslant u\right\}\right)-P\left(\left\{\left|U_{3}\right| \leqslant u\right\} \cap B\right) \\
+&=\iiint_{\Omega_{1}}\ 1 d x d y d z+\int_{0}^{u} 1 d x-\iiint_{\Omega_{2}} 1 d x d y d z \\
+&=\int_{0}^{u} d y \int_{y}^{1} d z \int_{0}^{z} d x+\int_{0}^{u} 1 d x-\int_{0}^{u} d z \int_{0}^{z} d y \int_{0}^{z} d x \\
+&=\frac{u}{2}-\frac{u^{3}}{6}+u-\frac{u^{3}}{3} \\
+&=\frac{3}{2} u-\frac{u^{3}}{2}
+\end{aligned}
+$$
+$$
+(\begin{array}{l}
+\Omega_{1}=\{(x, y, z): y \leqslant z \leqslant 1,0 \leqslant x \leqslant z, 0 \leqslant y \leqslant u\} ,
+\Omega_{2}=\{(x, y, z): z \geqslant y \geqslant 0, z \geqslant x \geqslant 0,0 \leqslant z \leqslant u\}
+\end{array})
+$$
+Comparing the two results, we know that |X| and |U| have the same distribution,and so are X and U,that's all.
+
+## Exercises 3.13
+
+we Generate 1000 random observations from the mixture with r = 4 and
+β = 2. And then we compare the empirical and theoretical (Pareto) distributions by graphing the density histogram of the sample and superimposing the Pareto density curve.These two graphs have a high degree of fit,so this random sampling simulation is successful!
+
+```{r}
+n <-1000
+set.seed(5)
+u <- runif(n)
+x <-((2/((1-u)^{1/4}))-2)  
+hist(x, prob = TRUE, main = expression(f(x)==(2/(1-u)^{1/4})-2))
+y <- seq(0, 30, 0.01)
+lines(y, 64/((2+y)^5))
+```
+
+
+
+
+
+## HOMEWORK3
+
+## Exercises 5.1
+
+The algorithm is as follows:
+$$
+\int_{0}^{\frac{\pi}{3}} \sin t d t=\frac{\pi}{3} \int_{0}^{\frac{\pi}{3}} \sin t \cdot \frac{1}{\frac{\pi}{3}} d t=\frac{\pi}{3} E(\sin T), T \sim U\left(0, \frac{\pi}{3}\right)
+$$
+```{r echo=FALSE}
+set.seed(6)
+a <- 1e6; t <- runif(a, min=0, max=(pi/3))
+estimate <- mean(sin(t)) *(pi/3)
+x <- c(estimate,-cos(pi/3)+cos(0))
+names(x) <- c("   estimate","      exact value")
+x
+
+```
+
+we can see that our estimate are quite close to the exact value of the integral.
+
+
+## Exercises 5.7
+  
+
+```{r echo=FALSE}
+set.seed(1)
+MC.Phi <- function(x, R = 10000, antithetic = TRUE) {
+  u <- runif(R/2,0,x)
+  if (!antithetic) v <- runif(R/2) else v <- 1 - u
+  u <- c(u, v)
+  cdf <- numeric(length(x))
+  for (i in 1:length(x)) {
+    g <- x[i] * exp(u * x[i])
+    cdf[i] <- mean(g) 
+  }
+  cdf
+}
+
+m <- 1000
+MC1 <- MC2 <- numeric(m)
+x <- 1
+for (i in 1:m) {
+  MC1[i] <- MC.Phi(x, R = 1000, anti = FALSE)
+  MC2[i] <- MC.Phi(x, R = 1000)
+}
+paste("result of estimation and the theoretical value:")
+value <- c(MC1[1],MC2[2],exp(1)-1)
+names(value) <- c("Monte Carlo method   ","     antithetic variate approach","the theoretical value")
+value
+paste("variance of the two methods:")
+variance <- c(sd(MC1),sd(MC2),sd(MC2)/sd(MC1))
+names(variance) <- c("Monte Carlo method   ","     antithetic variate approach","Ratio of the two")
+variance
+
+```
+We can see that the two estimated results are very close to the theoretical values,and The variance of antithetic variate approach is smaller than that of the Monte Carlo method!
+
+
+
+## Exercises 5.11
+
+$$
+\begin{aligned}
+\operatorname{Var}\left(\hat{\theta}_{c}\right) &=\operatorname{Var}\left(c \hat{\theta}_{1}+(1-c) \hat{\theta}_{2}\right) \\
+&=c^{2} \operatorname{Var}\left(\hat{\theta}_{1}\right)+(1-c)^{2} \operatorname{Var}\left(\hat{\theta}_{2}\right)+2 c(1-c) \operatorname{cov}\left(\hat{\theta}_{1}, \hat{\theta}_{2}\right) \\
+&=\left[\operatorname{Var}\left(\hat{\theta}_{1}\right)+\operatorname{Var}\left(\hat{\theta}_{2}\right)-2 \operatorname{cov}\left(\hat{\theta}_{1}, \hat{\theta}_{2}\right)\right] c^{2}+2\left[\operatorname{cov}\left(\hat{\theta}_{1}, \hat{\theta}_{2}\right)-\operatorname{Var}\left(\hat{\theta}_{2}\right)\right] \mathrm{C}+\operatorname{Var}\left(\hat{\theta}_{2}\right)
+\end{aligned}
+$$
+$$
+\begin{array}{l}
+\text { We let } A=\operatorname{Var}\left(\hat{\theta}_{1}\right)+\operatorname{Var}\left(\hat{\theta}_{2}\right)-2 \operatorname{cov}\left(\hat{\theta}_{1}, \hat{\theta}_{2}\right)=\operatorname{Var}\left(\hat{\theta}_{1}-\hat{\theta}_{2}\right) \\
+\quad B=\operatorname{cov}\left(\hat{\theta}_{1}, \hat{\theta}_{2}\right)-\operatorname{Van}\left(\hat{\theta}_{2}\right) \\
+\quad C=\operatorname{Var}\left(\hat{\theta}_{2}\right) \\
+\text { then: } \\
+\qquad \operatorname{Var}\left(\hat{\theta}_{c}\right)=A c^{2}+2 B c+C
+\end{array}
+$$
+From the properties of the equation, we know that the above equation obtains the minimum value at 
+$$
+c=-\frac{2 B}{2 A}=\frac{\operatorname{Var}\left(\hat{\theta}_{2}\right)-\operatorname{cov}\left(\hat{\theta}_{1}, \hat{\theta}_{2}\right)}{\operatorname{Var}\left(\hat{\theta}_{1}\right)+\operatorname{Var}\left(\hat{\theta}_{2}\right)-2 \operatorname{cov}\left(\hat{\theta}_{1}, \hat{\theta}_{2}\right)}
+$$
+finally,$c^*$ is as above!
+
+
+
+## HOMEWORK4
+
+## Exercises 5.13
+
+## Question
+Find two importance functions $f_1$ and $f_2$ that are supported on $(1,\infty)$ and are 'close' to $g(x)=\frac{x^2}{\sqrt{2\pi}}e^{-x^2/2},x>1$  Which of your two importance functions should produce the smaller variance in estimating
+$\int_1^{\infty}{\frac{x^2}{\sqrt{2\pi}}e^{-x^2/2}}\,{\rm d}x$  by importance sampling? Explain.
+
+## Answer
+```{r}
+x <- seq(1, 4, 0.001);
+w <- 2;
+g <- x^2*exp(-(x^2)/2) / sqrt(2*pi);
+
+f1 <- exp(1-x);
+f2 <- 1 / x^2;
+plot(x, g, type = "l", main = "figure(a)", ylab = "",
+     ylim = c(0,0.4), lwd = w);
+
+
+lines(x, f1, lty = 2, lwd = w);
+lines(x, f2, lty = 3, lwd = w);
+legend("topright", legend = c("g(x)","f1","f2"),
+       lty = 1:3 ,lwd = w, inset = 0.02);
+
+plot(x, g/g, type = "l", main = "figure(b)", ylab = "",
+ylim = c(0,2), lwd = w, lty = 1)
+lines(x, g/f1, lty = 2, lwd = w)
+lines(x, g/f2, lty = 3, lwd = w)
+
+legend("topright", legend = c("1","g(x)/f1(x)","g(x)/f2(x)"),
+lty = 1:3, lwd = w, inset = 0.02)
+
+```
+```{r}
+m <- 10000
+est <- se <- numeric(2)
+g <- function(x) {
+  (x^2*exp(-(x^2)/2) / sqrt(2*pi)) * (x > 1) 
+}
+
+u <- runif(m) 
+x <- 1-log(1-u)
+fg <- g(x) / (exp(1-x))
+est[1] <- mean(fg)
+se[1] <- sd(fg)
+
+u <- runif(m) 
+x <- 1/(1-u)
+fg <- g(x) / (1/x^2)
+est[2] <- mean(fg)
+se[2] <- sd(fg)
+
+rbind(est, se)
+
+```
+we can see that f1 produces the smaller variance,because it's closer to $ g(x) $,and the results suggest that it does have a smaller variance! 
+
+
+## Exercises 5.15
+
+## Question
+
+Obtain the stratified importance sampling estimate in Example 5.13 and compare it with the result of Example 5.10.
+
+## Answer 
+
+```{r}
+M <- 10000 #number of replicates
+k <- 5 #number of strata
+r <- M / k #replicates per stratum
+N <- 50 #number of times to repeat the estimation
+T2 <- numeric(k)
+estimates <- matrix(0, N, 6)
+g <- function(x) {
+  exp(-x - log(1+x^2)) * (x > 0) * (x < 1)
+}
+
+for (i in 1:N) {
+  
+  x0 <- runif(M) 
+  fg0 <- g(x0)
+  estimates[i, 1] <- mean(fg0) 
+  
+  x1 <- rexp(M, 1) 
+  fg1 <- g(x1) / exp(-x1)
+  estimates[i, 2] <- mean(fg1)
+  
+  
+  x2 <- rcauchy(M) 
+  l <- c(which(x2 > 1), which(x2 < 0))
+  x2[l] <- 2 
+  fg2 <- g(x2) / dcauchy(x2)
+  estimates[i, 3] <- mean(fg2)
+  
+  
+  x3 <- (- log(1 -  runif(M) * (1 - exp(-1))))
+  fg3 <- g(x3) / (exp(-x3) / (1 - exp(-1)))  
+  estimates[i, 4] <- mean(fg3)
+  
+
+  x4 <- tan(pi * runif(M) / 4)
+  fg4 <- g(x4) / (4 / ((1 + x4^2) * pi))
+  estimates[i, 5]  <- mean(fg4)
+
+  
+  for (j in 1:k)
+    {
+    y <- (- log(exp(-((j-1)/5)) -  runif(M/k,(j-1)/k, j/k) * (exp(-((j-1)/5)) - exp(-j/5))))
+    T2[j] <- mean(g(y) / (exp(-y) / (exp(-((j-1)/5)) - exp(-j/5))))
+  }
+  
+  estimates[i, 6] <- sum(T2)
+}
+
+est<-c(apply(estimates, 2, mean))
+names(est) <-c("f0","f1","f2","f3","f4","result of 5.15")
+sd<-c(apply(estimates, 2, var))
+names(sd) <-c("f0","f1","f2","f3","f4","result of 5.15")
+est
+sd
+```
+The last column of the above results belongs to Exercises 5.15, and compared with the results of the five functions in exercise 5.10, the variance of stratified importance sampling estimate is the smallest!
+
+## Exercises 6.4
+
+## Question
+
+Suppose that $X_1,\ldots,X_n$ are a random sample from a lognormal distribution with unknown parameters. Construct a 95% confidence interval for the parameter $\mu$. Use a Monte Carlo method to obtain an empirical estimate of the confidence level.
+
+## Answer 
+the process of Constructing a 95% confidence interval for the parameter $\mu$:
+let $Y=lnX$ then $Y \sim N(\mu,\sigma^2)$ and $\sigma^2$ is unknown.
+
+So $\frac{\sqrt{n}(\bar{y}-\mu)}{s} \sim t(n-1)$
+
+$\Rightarrow$ a 95% confidence interval for the parameter $\mu$ is:
+
+$\frac{1}{n}ln\prod_{i=1}^nx_i\pm t_{0.025}(n-1)\frac{S}{\sqrt{n}}$(S is the standard deviation of $lnx_i$)
+
+
+suppose that $X\sim LN(\mu,\sigma^2)$ then Use the Monte Carlo method to obtain an empirical estimate
+of the confidence level as below:
+```{r}
+set.seed(1)
+n <- 20
+alpha <- 0.05
+UCL <- replicate(1000, expr = {
+y <- rnorm(n,0,1)
+ mean(y)-((sqrt(var(y))*qt(alpha, df = n-1))/sqrt(n)) 
+} )
+a<- c(sum(UCL > 0))
+b<-c(mean(UCL > 0))
+names(a) <-c("      sum")
+names(b) <-c("percentage")
+a
+b
+
+```
+ The empirical estimate of the confidence level is 95.3%.
+
+
+## Exercises 6.5
+
+
+## Question
+
+
+Suppose a 95% symmetric t-interval is applied to estimate a mean, but the sample data are non-normal. Then the probability that the confidence interval covers the mean is not necessarily equal to 0.95. Use a Monte Carlo experiment to estimate the coverage probability of the t-interval for random samples of $\chi^2(2)$  data with sample size n = 20. Compare your t-interval results with the simulation results in Example 6.4. (The t-interval should be more robust to departures from normality than the interval for variance.)
+
+## Answer
+
+the sampled population is $\chi^2(2) $, which has mean 2
+```{r}
+set.seed(5)
+n <- 20
+alpha <- 0.05
+UCL <- replicate(1000, expr = {
+  x <- rchisq(n, df = 2)
+   mean(x)-((sqrt(var(x))*qt(alpha, df = n-1))/sqrt(n))     
+} )
+
+
+
+a <- c(sum(UCL > 2))
+b <- c(mean(UCL > 2))
+
+names(a) <-c("      sum")
+names(b) <-c("percentage")
+a
+b
+```
+In this experiment, only 902 or 90.2% of the intervals contained the population mean, which is far from the 95% coverage under normality compared to the  results of the simulation  in Example 6.4. 
+
+
+
+## HOMEWORK5
+
+## Exercises 6.7
+
+## Question
+Estimate the power of the skewness test of normality against symmetric Beta$(\alpha,\alpha)$ ditributions and comment on the results. Are the results different for heavy-tailed symmetric alternatives such as $t(\nu)$?
+
+## Answer
+```{r}
+alpha <-5
+n <- c(10, 20, 30, 50, 100, 500) #sample sizes
+cv <- qnorm(.975, 0, sqrt(6*(n-2) / ((n+1)*(n+3)))) #crit. values for each n
+
+sk <- function(x) {
+  #computes the sample skewness coeff.
+  xbar <- mean(x)
+  m3 <- mean((x - xbar)^3)
+  m2 <- mean((x - xbar)^2)
+  return( m3 / m2^1.5 )
+}
+a.reject <- numeric(length(n)) #to store sim. results
+m <- 10000 #num. repl. each sim.
+for (i in 1:length(n)) {
+  sktests <- numeric(m) #test decisions
+  for (j in 1:m) {
+    x <- rbeta(n[i],alpha,alpha)
+    #test decision is 1 (reject) or 0
+    sktests[j] <- as.integer(abs(sk(x)) >= cv[i] )
+  }
+  a.reject[i] <- mean(sktests) #proportion rejected
+}
+
+b.reject <- numeric(length(n)) #to store sim. results
+m <- 10000 #num. repl. each sim.
+for (i in 1:length(n)) {
+  sktests <- numeric(m) #test decisions
+  for (j in 1:m) {
+    x <- rt(n[i],900)
+    #test decision is 1 (reject) or 0
+    sktests[j] <- as.integer(abs(sk(x)) >= cv[i] )
+  }
+  b.reject[i] <- mean(sktests) #proportion rejected
+}
+ a.reject
+ b.reject
+```
+The vectors above are the power of the skewness test of normality against symmetric Beta$(\alpha,\alpha)$ distribution and t distribution,When the sample size is large enough, they are getting close! 
+
+
+```{r}
+ alpha <- 0.05
+ n <- 35
+ m <- 3000
+ epsilon <- c(seq(0, .15, .01), seq(.15, 1, .05))
+ N <- length(epsilon)
+ pwr <- numeric(N)
+ #critical value for the skewness test
+ cv <- qnorm(1-alpha/2, 0, sqrt(6*(n-2) / ((n+1)*(n+3))))
+ palpha <-seq(1,35,1)
+ for (j in 1:N) { #for each epsilon
+   e <- epsilon[j]
+   sktests <- numeric(m)
+   for (i in 1:m) { #for each replicate
+     x <- rbeta(n, palpha[j], palpha[j])
+     sktests[i] <- as.integer(abs(sk(x)) >= cv)
+   }
+   pwr[j] <- mean(sktests)
+ }
+ #plot power vs epsilon
+ plot(epsilon, pwr, type = "b",
+      xlab = bquote(epsilon), ylim = c(0,0.1))
+ abline(h = 0.05, lty = 3)
+ se <- sqrt(pwr * (1-pwr) / m) #add standard errors
+ lines(epsilon, pwr+se, lty = 3)
+ lines(epsilon, pwr-se, lty = 3)
+```
+
+
+ the plot above is the power curve for the power of the skewness test against this type of alternative!
+
+
+
+## Exercises 6.8
+## Question
+Refer to Example 6.16. Repeat the simulation, but also compute the F test of equal variance, at significance level$\hat\alpha = 0.055$. Compare the power of the Count Five test and F test for small, medium, and large sample sizes. (Recall that the F test is not applicable for non-normal distributions.)
+
+## Answer 
+
+```{r}
+m <- 10000
+s1 <- 1
+s2 <- 1.5
+n1 <- n2 <-c(10,100,500)
+count5test <- function(x, y) {
+  X <- x - mean(x)
+  Y <- y - mean(y)
+  outx <- sum(X > max(Y)) + sum(X < min(Y))
+  outy <- sum(Y > max(X)) + sum(Y < min(X))
+  # return 1 (reject) or 0 (do not reject H0)
+  return(as.integer(max(c(outx, outy)) > 5))
+}
+Ftest <- numeric(3)
+CFtest <- numeric(3)
+for(i in 1:3){
+Ftest[i] <- mean(replicate(m, expr={
+    x <- rnorm(n1[i], 0, s1)
+    y <- rnorm(n2[i], 0, s2)
+    count5test(x, y)
+}))
+CFtest[i] <- mean(replicate(m, expr={
+    x <- rnorm(n1[i], 0, s1)
+    y <- rnorm(n2[i], 0, s2)
+    2*min(c(pf(var(x)/var(y),n1[i]-1,n2[i]-1),1-pf(var(x)/var(y),
+n1[i]-1,n2[i]-1)))
+}))}
+
+
+power <- data.frame(Ftest,CFtest)
+power
+```
+ By comparing the power of the Count Five test and F test for small, medium, and large sample sizes,we can see that With the increase of sample size, the value also increases,and F test always has a high power.
+
+
+## Exercises 6.C
+## Question
+
+Repeat Examples 6.8 and 6.10 for Mardia's multivariate skewness test. Mardia [187] proposed tests of multivariate normality based on multivariate generalizations of skewness and kurtosis. If X and Y are iid, the multivariate population skewness $\beta_{1,d}$ is defined by Mardia as$$\beta_{1,d}=E[(X-\mu)^T\Sigma^{-1}(Y-\mu)]^3.$$
+Under normality, $\beta_{1,d}=0.$The multivariate skewness statistic is
+$$b_{1,d}=\frac{1}{n^2}\sum_{i,j=1}^n((X_i-\bar X)^T\hat\Sigma^{-1}(X_j-\bar X))^3$$
+where $\hat\Sigma$ is the maximum likelihood estimator of covariance. Large values of $b_{1,d}$ are significant. The asymptotic distribution of $nb_{1,d}/6$ is chisquared with $d(d+1)(d+2)/6$ degrees of freedom.
+
+## Answer
+
+repeat of example 6.8
+
+```{r}
+
+n <- c(10, 20, 30, 50, 100, 500) #sample sizes
+cv <- qnorm(.975, 0, sqrt(6/n)) #crit. values for each n
+sk <- function(x) {
+#computes the sample skewness coeff.
+xbar <- mean(x)
+m3 <- mean((x - xbar)^3)
+m2 <- mean((x - xbar)^2)
+return( m3 / m2^1.5 )
+}
+#n is a vector of sample sizes
+#we are doing length(n) different simulations
+
+p.reject <- numeric(length(n)) #to store sim. results
+m <- 10000 #num. repl. each sim.
+for (i in 1:length(n)) {
+sktests <- numeric(m) #test decisions
+for (j in 1:m) {
+x <- rnorm(n[i])
+#test decision is 1 (reject) or 0
+sktests[j] <- as.integer(abs(sk(x)) >= cv[i] )
+}
+p.reject[i] <- mean(sktests) #proportion rejected
+}
+p.reject
+
+
+
+```
+
+
+
+repeat of example 6.10
+
+```{r}
+
+
+library(MASS)
+
+msk <- function(x,n){
+  xbar <- colMeans(x)
+  Cov_hat <- cov(x)*(n-1)/n
+  b <- sum((t(t(x)-xbar)%*%solve(Cov_hat)%*%(t(x)-xbar))^3)/n^2
+  return(b*n/6)
+}
+n <- 35
+m <- 500
+eps <- seq(0,1,.02)
+N <- length(eps)
+power <- numeric(N)
+cv <- qchisq(.9, 10)
+for (j in 1:N) { 
+e <- eps[j]
+msktests <- numeric(m)
+for (i in 1:m) { 
+sigma <- sample(c(1, 10), replace = TRUE,
+size = n, prob = c(1-e, e))
+X1 <- rnorm(n, 0, sigma)
+X2 <- rnorm(n, 0, sigma)
+X3 <- rnorm(n, 0, sigma)
+X <- data.frame(X1,X2,X3)
+msktests[i] <- as.integer(msk(X,n) >= cv)
+}
+power[j] <- mean(msktests)
+}
+plot(eps, power, type = "b",
+xlab = bquote(eps), ylim = c(0,1))
+abline(h = .1, lty = 3)
+se <- sqrt(power * (1-power) / m) 
+lines(eps, power+se, lty = 3)
+lines(eps, power-se, lty = 3)
+```
+
+
+Conclusion:In the multi-dimensional Mardia's multivariate skewness test, the larger the sample size, the better the effect,and appropriate degrees of freedom can provide better simulation results
+
+
+
+## Discussion
+1.If we obtain the powers for two methods under a particular simulation setting with 10,000 experiments: say, 0.651 for one method and 0.676 for another method. Can we say the powers are different at 0.05 level?  
+2.What is the corresponding hypothesis test problem?  
+3.What test should we use? Z-test, two-sample t-test, paired-t test or McNemar test?
+
+4.What information is needed to test your hypothesis?  
+
+## Answer
+1.The given p value is not small enough, and the difference between them is not big enough, so I don't think they are different. We must test the hypothesis of different models before we can draw a conclusion
+
+2.It's the problem that samples come from paired individuals,and the sample size is very small
+
+3.Paired sample t-test is better than the other two because it eliminates the influence of additional factors and helps to overcome the corresponding hypothesis test problem.
+
+4.The type of population distribution, sampling method, sample size and so on
+
+
+## HOMEWORK6
+
+## Exercises 7.1
+
+## Question
+
+Compute a jackknife estimate of the bias and the standard error of the correlation statistic in Example 7.2.
+
+## Answer
+
+The code of jackknife estimate is as follows:
+
+```{r warning=FALSE}
+library(bootstrap) 
+
+y <-c(law$LSAT)
+z <-c(law$GPA)
+
+correlation <- cor(law$LSAT,law$GPA)
+
+cor.jack <- numeric(length(law$LSAT))
+for (i in 1:length(law$LSAT)){
+  cor.jack[i] <- cor((y[-i]),z[-i])
+}
+
+bias <- (length(law$LSAT)-1) * (mean(cor.jack) - correlation)
+se <- sqrt((length(law$LSAT)-1) * mean((cor.jack - mean(cor.jack))^2))
+ 
+result <- c(correlation=correlation,bias=bias,se=se)
+result
+
+```
+we can see from the result that the bias is  -0.006473623 and the standard error is 0.142518619.
+
+## Exercises 7.5
+
+## Question
+
+ Refer to Exercise 7.4. Compute 95% bootstrap confidence intervals for the mean time between failures $1/\lambda$ by the standard normal, basic, percentile,and BCa methods. Compare the intervals and explain why they may differ.
+
+## Answer
+
+The code  is as follows:
+
+```{r warning=FALSE}
+library(boot)
+
+observations <- c(3,5,7,18,43,85,91,98,100,130,230,487)
+
+obs_boot <- boot(observations, R = 2000,
+                   statistic = function(x, i){return(mean(x[i]))})
+
+print(boot.ci(obs_boot, type=c("basic","norm","perc","bca")))
+
+```
+The standard normal bootstrap confidence interval is the simplest approach,but not necessarily the best.The interval length of BCa method is the longest.There are some differences in the results of different methods,the reasons are as follows:the distribution of the replicates are different in the three methods.The basic bootstrap confidence interval transforms the distribution of the replicates by subtracting the observed statistic. The quantiles of the transformed sample are used to determine the confidence limits.A bootstrap percentile interval uses the empirical distribution of the bootstrap replicates as the reference distribution. 
+
+
+## Exercises 7.8
+
+## Question
+
+ Refer to Exercise 7.7. Obtain the jackknife estimates of bias and standard error of $\hat{\theta}$.
+
+
+## Answer
+
+The code of jackknife estimate is as follows:
+
+```{r}
+library(bootstrap)
+data(scor, package = "bootstrap")
+
+scor_cov <-eigen(cov(scor))
+theta <-scor_cov$values[1]/sum(scor_cov$values)
+
+theta_jack<-numeric(nrow(scor))
+for(i in 1:nrow(scor)){
+  theta_jack[i]<-eigen(cov(scor[-i,]))$values[1]/sum(eigen(cov(scor[-i,]))$values)
+}
+
+
+bias<-(nrow(scor)-1)*(mean(theta_jack)-theta)
+se<-sqrt((nrow(scor)-1)*mean((theta_jack-mean(theta_jack))^2))
+
+result = c(jack_bias = bias,jack_se =se)
+result
+
+```
+we can see from the result that the bias is  0.001069139 and the standard error is 0.049552307 .
+
+## Exercises 7.11
+
+## Question
+
+ In Example 7.18, leave-one-out (n-fold) cross validation was used to select the best fitting model. Use leave-two-out cross validation to compare the models.
+ 
+## Answer
+
+```{r warning=FALSE}
+library("DAAG")
+
+data(ironslag,package="DAAG")
+magnetic<-ironslag$magnetic
+chemical<-ironslag$chemical
+n <- length(magnetic) 
+e1 <- numeric(n)
+e2 <- numeric(n)
+e3 <- numeric(n)
+e4 <- numeric(n)
+
+for (k in 1:n-1) {
+  y <- magnetic[-c(k,k+1)]
+  x <- chemical[-c(k,k+1)]
+  J1 <- lm(y ~ x)
+  yhat1 <- J1$coef[1] + J1$coef[2] * chemical[c(k,k+1)]
+  e1[k] <- abs(magnetic[k] - yhat1[1])+abs(magnetic[k+1]-yhat1[2])
+  J2 <- lm(y ~ x + I(x^2))
+  yhat2 <- J2$coef[1] + J2$coef[2] * chemical[c(k,k+1)] +
+    J2$coef[3] * chemical[c(k,k+1)]^2
+  e2[k] <- abs(magnetic[k] - yhat2[1])+abs(magnetic[k+1]-yhat1[2])
+  J3 <- lm(log(y) ~ x)
+  logyhat3 <- J3$coef[1] + J3$coef[2] * chemical[c(k,k+1)]
+  yhat3 <- exp(logyhat3)
+  e3[k] <- abs(magnetic[k] - yhat3[1])+abs(magnetic[k+1]-yhat1[2])
+  J4 <- lm(log(y) ~ log(x))
+  logyhat4 <- J4$coef[1] + J4$coef[2] * log(chemical[c(k,k+1)])
+  yhat4 <- exp(logyhat4)
+  e4[k] <- abs(magnetic[k] - yhat4[1])+abs(magnetic[k+1]-yhat1[2])
+}
+
+
+mean <-c(e1=mean(e1^2),e2=mean(e2^2),e3=mean(e3^2),e4=mean(e4^2))
+mean
+
+```
+
+
+we can see from the result that e2 is the minimum value of the four,so it is the best!and The parameters of the model are as follows:
+```{r}
+print(Line2 <- lm(magnetic ~ chemical + I(chemical^2)))
+```
+
+So the fitted curve is:$\hat{Y}=24.49262+(-1.39334)X+0.05452X^2$
+
+
+## THANKS FOR WATCHING!
+
+
+
+## HOMEWORK7
+
+## Exercises 8.3
+
+## Question
+
+$~~~~$The Count 5 test for equal variances in Section 6.4 is based on the maximum
+number of extreme points. Example 6.15 shows that the Count 5 criterion
+is not applicable for unequal sample sizes. Implement a permutation test for
+equal variance based on the maximum number of extreme points that applies
+when sample sizes are not necessarily equal.
+
+## Answer
+
+Suppose that the distributions of the two sample populations are both $N(0,1)$, and the sample sizes are 20 and 30 respectively, $H_0:equal~variance$  and $H_1:Unequal~variance$.The code is as follows:
+```{r warning=FALSE}
+
+library(boot)
+set.seed(88)
+m <- 20
+n <- 30
+M <- 1000
+
+test1 <- function(x, y) {
+  X <- x - mean(x)
+  Y <- y - mean(y)
+  outx <- sum(X > max(Y)) + sum(X < min(Y))
+  outy <- sum(Y > max(X)) + sum(Y < min(X))
+  return(as.integer(max(c(outx, outy)) > 5))
+}
+
+test2 <- function(m,n,mu1=0,mu2=0,sigma1=1,sigma2=1,R = 100){
+
+  reps <- numeric(R)
+  x <- rnorm(m,mu1,sigma1)
+  y <- rnorm(n,mu2,sigma2)
+  for (i in 1:R) {
+    k <- sample(1:n, size = m, replace = FALSE)
+    x1 <- x
+    y1 <- y[k] 
+    reps[i] <- test1(x1, y1)
+  }
+  mean(reps)
+}
+
+p<- mean(replicate(M, expr=test2(m,n)))
+
+print(p)
+
+```
+The result is very close to 0.05(significance level)
+
+## Question
+
+$\triangleright$ Design experiments for evaluating the performance of the NN,energy, and ball methods in various situations.
+
+$~~~~~\triangleright$ Unequal variances and equal expectations
+
+$~~~~~\triangleright$ Unequal variances and unequal expectations
+
+$~~~~~\triangleright$ Non-normal distributions: t distribution with 1 df (heavy-tailed
+distribution), bimodel distribution (mixture of two normal
+distributions)
+
+$~~~~~\triangleright$ Unbalanced samples (say, 1 case versus 10 controls)
+
+$~~~~~\triangleright$ Note: The parameters should be chosen such that the powers
+are distinguishable (say, range from 0.3 to 0.8).
+
+## Answer
+
+```{r warning=FALSE}
+
+
+library(boot)
+library(energy)
+library(Ball)
+library(RANN)
+
+set.seed(88)
+
+nn.test=function(x,y){
+z <- c(x, y)
+o <- rep(0, length(z))
+z <- as.data.frame(cbind(z, o))
+Tn3 <- function(z, ix, sizes) {
+  n1 <- sizes[1]
+  n2 <- sizes[2]
+  n <- n1 + n2
+  z <- z[ix, ]
+  o <- rep(0, NROW(z))
+  z <- as.data.frame(cbind(z, o))
+  NN <- nn2(z, k=3)
+  block1 <- NN$nn.idx[1:n1, ]
+  block2 <- NN$nn.idx[(n1+1):n, ]
+  i1 <- sum(block1 < n1 + .5)
+  i2 <- sum(block2 > n1 + .5)
+  return((i1 + i2) / (3 * n))
+}
+N <- c(length(x), length(y))
+boot.obj <- boot(data = z, statistic = Tn3, sim = "permutation", R = 999, sizes = N)
+tb <- c(boot.obj$t, boot.obj$t0)
+mean(tb >= boot.obj$t0)
+}
+energy.test=function(x,y,R=length(x)+length(y)){
+  z <- c(x, y)
+  o <- rep(0, length(z))
+  z <- as.data.frame(cbind(z, o))
+  N <- c(length(x), length(y))
+  eqdist.etest(z, sizes = N,R=R)$p.
+}
+```
+
+
+for the first question,the code is as follows:
+
+```{r}
+mat=matrix(0,10,3)
+for(i in 1:10){
+  x=rnorm(100)
+  y=rnorm(100)*(1+i/10)
+  seed=.Random.seed
+  mat[i,]=c(nn.test(x,y),energy.test(x,y),bd.test(x,y,R=length(x)+length(y))$p)
+  .Random.seed=seed
+}
+plot(mat[,1],type='n',ylim=c(0,0.5),main="Unequal variances and equal expectations")
+for(i in 1:3)points(mat[,i],col=i+1)
+for(i in 1:3)points(mat[,i],col=i+1,type='l')
+
+```
+
+
+
+
+we can see that the ball method has the highest power among the three tests.
+
+for the second question,the code is as follows:
+
+```{r}
+mat=matrix(0,10,3)
+for(i in 1:10){
+  x=rnorm(100,i/10)
+  y=rnorm(100)*(1+i/10)
+  seed=.Random.seed
+  mat[i,]=c(nn.test(x,y),energy.test(x,y),bd.test(x,y,R=length(x)+length(y))$p)
+  .Random.seed=seed
+}
+plot(mat[,1],type='n',ylim=c(0,0.5),main="Unequal variances and unequal expectations")
+for(i in 1:3)points(mat[,i],col=i+1)
+for(i in 1:3)points(mat[,i],col=i+1,type='l')
+```
+
+all of the three methods have approximate power 100%, although NN method is a little lower than the other two methods.
+
+
+for the third question,the code is as follows:
+```{r}
+mat=matrix(0,10,3)
+for(i in 1:10){
+  x=rt(1000,df=1)
+  y=rt(1000,df=1+i/10)
+  seed=.Random.seed
+  mat[i,]=c(nn.test(x,y),energy.test(x,y),bd.test(x,y,R=length(x)+length(y))$p)
+  .Random.seed=seed
+}
+plot(mat[,1],type='n',ylim=c(0,0.5),main="heavy-tailed distribution")
+for(i in 1:3)points(mat[,i],col=i+1)
+for(i in 1:3)points(mat[,i],col=i+1,type='l')
+
+```
+
+
+```{r}
+mat=matrix(0,10,3)
+for(i in 1:10){
+  x=rnorm(500)
+  y=ifelse(runif(500)<i/11,rnorm(500,sd=0.3),rnorm(500,sd=1.38))
+  seed=.Random.seed
+  mat[i,]=c(nn.test(x,y),energy.test(x,y),bd.test(x,y,R=length(x)+length(y))$p)
+  .Random.seed=seed
+}
+plot(mat[,1],type='n',ylim=c(0,0.5),main=" bimodel distribution")
+for(i in 1:3)points(mat[,i],col=i+1)
+for(i in 1:3)points(mat[,i],col=i+1,type='l')
+```
+
+we can conclude that NN method is inferior to the energy and ball method when the populations are non-normal.
+
+
+for the last question,the code is as follows:
+```{r}
+mat=matrix(0,10,3)
+for(i in 1:10){
+  x=rnorm(100/i)
+  y=rnorm(100*i,sd=1.5)
+  seed=.Random.seed
+  mat[i,]=c(nn.test(x,y),energy.test(x,y),bd.test(x,y,R=length(x)+length(y))$p)
+  .Random.seed=seed
+}
+plot(mat[,1],type='n',ylim=c(0,0.5),main="Unbalanced samples")
+for(i in 1:3)points(mat[,i],col=i+1)
+for(i in 1:3)points(mat[,i],col=i+1,type='l')
+```
+ 
+ 
+ 
+ 
+ We can see that except the ball method, the powers of NN and energy are less than 0.05,the result supports the expectation.
+
+## HOMEWORK8
+
+## Exercises 9.4
+
+## Question
+
+
+ Implement a random walk Metropolis sampler for generating the standard Laplace distribution (see Exercise 3.2). For the increment, simulate from a normal distribution. Compare the chains generated when different variances are used for the proposal distribution. Also, compute the acceptance rates of each chain.
+
+
+## Answer
+
+ The standard Laplace distribution has density $f(x)=\frac{1}{2} e^{-|x|}, x \in \mathbb{R} \text { . }$In this simulation below, the  density of the standard Laplace distribution  will be computed by the dL function we defined. 
+ 
+```{r}
+
+ #Construction of Laplace density function
+dL<-function(x){             
+  return(0.5*exp(-abs(x)))
+}
+
+#Construction of random walk Metropolis sampler 
+rw.Metropolis <- function(sigma, x0, N) {
+  x <- numeric(N)
+  x[1] <- x0
+  u <- runif(N)
+  k <- 0
+  for (i in 2:N) {
+    y <- rnorm(1, x[i-1], sigma)
+    if (u[i] <= (dL(y) / dL(x[i-1]))){
+      x[i] <- y
+    }
+    else {
+      x[i] <- x[i-1]
+      k <- k + 1
+      } 
+    }
+  return(list(x=x, k=k))
+}
+
+#Bring in parameters
+
+sigma <- c(.03, .3, 3, 13)
+x0 <- 25
+N <- 2000
+
+rw1 <- rw.Metropolis(sigma[1], x0, N)
+rw2 <- rw.Metropolis(sigma[2], x0, N)
+rw3 <- rw.Metropolis(sigma[3], x0, N)
+rw4 <- rw.Metropolis(sigma[4], x0, N)
+
+
+#number of candidate points rejected
+print(c(rw1$k, rw2$k, rw3$k, rw4$k))
+
+```
+The number of candidate points rejected is shown above,which are from chains generated when different variances are used for the proposal distribution,We can see that as the variance increases, so does the number of candidate points rejected.
+
+```{r}
+#e the acceptance rates of each chain
+print(c((2000-rw1$k)/2000, (2000-rw2$k)/2000, (2000-rw3$k)/2000, (2000-rw4$k)/2000))
+```
+We can know from the output results that the smaller the variance, the higher the acceptance rate
+
+
+## Exercises(Extension of exercise 9.4) 
+
+## Question
+
+
+For Exercise 9.4, use the Gelman-Rubin method to monitor convergence of the chain, and run the chain until it converges approximately to the target distribution according to  $~\hat{R} < 1.2   $ 
+
+
+## Answer
+
+```{r}
+
+set.seed(2)
+ #Construction of Laplace density function
+dL<-function(x){             
+  return(0.5*exp(-abs(x)))
+}
+
+#Construction of random walk Metropolis sampler 
+rw.Metropolis <- function(sigma, x0, N) {
+  x <- numeric(N)
+  x[1] <- x0
+  u <- runif(N)
+  k <- 0
+  for (i in 2:N) {
+    y <- rnorm(1, x[i-1], sigma)
+    if (u[i] <= (dL(y) / dL(x[i-1]))){
+      x[i] <- y
+    }
+    else {
+      x[i] <- x[i-1]
+      k <- k + 1
+      } 
+    }
+  return(list(x=x, k=k))
+}
+
+
+#Construction of the Gelman-Rubin method function
+Gelman.Rubin <- function(psi) {
+  # psi[i,j] is the statistic psi(X[i,1:j])
+  # for chain in i-th row of X
+  psi <- as.matrix(psi)
+  n <- ncol(psi)
+  k <- nrow(psi)
+  psi.means <- rowMeans(psi) #row means
+  B <- n * var(psi.means) #between variance est.
+  psi.w <- apply(psi, 1, "var") #within variances
+  W <- mean(psi.w) #within est.
+  v.hat <- W*(n-1)/n + (B/n) #upper variance est.
+  r.hat <- v.hat / W #G-R statistic
+  return(r.hat)
+}
+
+sigma <- .2 #parameter of proposal distribution
+k <- 4 #number of chains to generate
+n <- 20000 #length of chains
+b <- 2000 #burn-in length
+
+x0 <- c(-10, -5, 5, 10)
+
+#generate the chains
+X <- matrix(0, nrow=k, ncol=n)
+for (i in 1:k)
+  X[i, ] <- rw.Metropolis(sigma, x0[i], n)$x
+
+#compute diagnostic statistics
+psi <- t(apply(X, 1, cumsum))
+for (i in 1:nrow(psi))
+  psi[i,] <- psi[i,] / (1:ncol(psi))
+print(Gelman.Rubin(psi))
+
+
+#plot the sequence of R-hat statistics
+rhat <- rep(0, n)
+for (j in (b+1):n)
+rhat[j] <- Gelman.Rubin(psi[,1:j])
+plot(rhat[(b+1):n], type="l", xlab="", ylab="R")
+abline(h=1.1, lty=2)
+```
+
+
+
+## Exercises 11.4
+
+## Question
+
+ Find the intersection points $~A(k) ~in~(0,\sqrt{k})~$ of the curves
+$$
+S_{k-1}(a)=P\left(t(k-1)>\sqrt{\frac{a^{2}(k-1)}{k-a^{2}}}\right)
+$$
+and
+$$
+S_{k}(a)=P\left(t(k)>\sqrt{\frac{a^{2} k}{k+1-a^{2}}}\right)
+$$
+
+for k = 4 : 25, 100, 500, 1000, where t(k) is a Student t random variable with
+k degrees of freedom. (These intersection points determine the critical values
+for a t-test for scale-mixture errors proposed by Sz´ekely [260].)
+
+## Answer
+
+
+```{r}
+
+k<-c(4:25,100,500,1000)
+
+Ak<-numeric()
+for (i in 1:length(k)) {
+  result <- uniroot(function(a){
+    pt(sqrt(a^2*(k[i]-1)/(k[i]-a^2)),df=k[i]-1,log.p = T)-pt(sqrt(a^2*(k[i])/(k[i]+1-a^2)),df=k[i],log.p = T)
+  },lower = 1e-5,upper = sqrt(k[i]-1e-5))
+  Ak[i]<-unlist(result)[[1]]
+}
+
+root <- rbind(k,Ak)
+
+root
+
+```
+
+## HOMEWORK9
+
+## A-B-O blood type problem
+Let the three alleles be A, B and O.  
+
+(Table omitted)  
+
+Observed data:
+A-type: $n_{A \cdot }=444$  
+
+B-type: $n_{B \cdot }=132$  
+
+O-type: $n_{OO}=361$  
+
+AB-type: $n_{AB}=63$  
+
+
+1. Use EM algorithm to solve MLE of $p$ and $q$. (consider missing data $n_{AA}$ and $n_{BB}$) 
+2. Record the values of $p$ and $q$ that maximize the conditional likelihood in each EM steps, calculate the corresponding log-maximum likelihood values (for observed data), are they increasing?
+### Answer
+```{r}
+
+library(nloptr)
+# Mle 
+eval_f0 = function(x,x1,n.A=444,n.B=132,nOO=361,nAB=63) {
+  
+  r1 = 1-sum(x1)
+  nAA = n.A*x1[1]^2/(x1[1]^2+2*x1[1]*r1)
+  nBB = n.B*x1[2]^2/(x1[2]^2+2*x1[2]*r1)
+  r = 1-sum(x)
+  return(-2*nAA*log(x[1])-2*nBB*log(x[2])-2*nOO*log(r)-
+           (n.A-nAA)*log(2*x[1]*r)-(n.B-nBB)*log(2*x[2]*r)-nAB*log(2*x[1]*x[2]))
+}
+
+
+# constraint
+eval_g0 = function(x,x1,n.A=444,n.B=132,nOO=361,nAB=63) {
+  return(sum(x)-0.999999)
+}
+
+opts = list("algorithm"="NLOPT_LN_COBYLA",
+             "xtol_rel"=1.0e-8)
+mle = NULL
+r = matrix(0,1,2)
+r = rbind(r,c(0.2,0.35))# the beginning value of p0 and q0
+j = 2
+while (sum(abs(r[j,]-r[j-1,]))>1e-8) {
+res = nloptr( x0=c(0.2,0.25),
+               eval_f=eval_f0,
+               lb = c(0,0), ub = c(1,1), 
+               eval_g_ineq = eval_g0, 
+               opts = opts, x1=r[j,],n.A=444,n.B=132,nOO=361,nAB=63 )
+j = j+1
+r = rbind(r,res$solution)
+mle = c(mle,eval_f0(x=r[j,],x1=r[j-1,]))
+}
+#the result of EM algorithm
+r 
+#the max likelihood values
+plot(-mle,type = 'l')
+
+```
+
+## p204 Exercises 3 
+ 
+Use both for loops and lapply() to fit linear models to the mtcars using the formulas stored in this list:
+
+formulas <- list( 
+
+mpg ~ disp,
+
+mpg ~ I(1 / disp),
+
+mpg ~ disp + wt,
+
+mpg ~ I(1 / disp) + wt
+
+)
+
+### Answer
+
+```{r}
+
+attach(mtcars)
+
+formulas = list(
+  mpg ~ disp,
+  mpg ~ I(1 / disp),
+  mpg ~ disp + wt,
+  mpg ~ I(1 / disp) + wt
+)
+#1 for loops
+f3 = vector("list", length(formulas))
+for (i in seq_along(formulas)){
+  f3[[i]] = lm(formulas[[i]], data = mtcars)
+}
+f3
+#2 lapply
+la3 = lapply(formulas, function(x) lm(formula = x, data = mtcars))
+la3
+
+```   
+
+## p214 Exercises 3
+
+The following code simulates the performance of a t-test for non-normal data. Use sapply() and an anonymous function to extract the p-value from every trial.
+
+### Answer
+```{r}
+
+set.seed(123)
+trials = replicate(
+100,
+t.test(rpois(10, 10), rpois(7, 10)),
+simplify = FALSE
+)
+# anonymous function:
+sapply(trials, function(x) x[["p.value"]])
+
+```
+
+
+## p214 Exercises 6
+
+Implement a combination of Map() and vapply() to create an lapply() variant that iterates in parallel over all of its inputs and stores its outputs in a vector (or a matrix). What arguments should the function take?
+
+### Answer
+
+We use the dataset mtcars and faithful as the example, what we expect is something like the following result:
+```{r}
+datalist <- list(mtcars, faithful)
+lapply(datalist, function(x) vapply(x, mean, numeric(1)))
+```
+We can get similar result with a the following function:
+```{r eval= FALSE}
+mylapply <- function(X, FUN, FUN.VALUE, simplify = FALSE){
+  out <- Map(function(x) vapply(x, FUN, FUN.VALUE), X)
+  if(simplify == TRUE) return(simplify2array(out))
+  unlist(out)
+}
+mylapply(datalist, mean, numeric(1))
+```
+
+
+## HOMEWORK10
+
+
+## Exercises 9.4 
+
+$~~~~~$Implement a random walk Metropolis sampler for generating the standard
+Laplace distribution (see Exercise 3.2). For the increment, simulate from a
+normal distribution. Compare the chains generated when different variances
+are used for the proposal distribution. Also, compute the acceptance rates of
+each chain.
+
+
+## Question
+
+
+$~~~~~~\triangleright~$Write an Rcpp function for Exercise 9.4 (page 277, Statistical
+Computing with R).
+
+$~~~~~~\triangleright~$Compare the corresponding generated random numbers with
+those by the R function you wrote before using the function
+“qqplot”.
+
+$~~~~~~\triangleright~$ Campare the computation time of the two functions with the
+function “microbenchmark”.
+
+$~~~~~~\triangleright~$Comments your results.
+
+## Answer
+
+$1.$First,the code of Rcpp function is as follows:
+```{r warning=FALSE}
+library(RcppArmadillo)
+library(Rcpp)
+
+sourceCpp(
+  code = '
+#include<Rmath.h>
+#include<RcppCommon.h>
+#include<RcppArmadillo.h>
+// [[Rcpp::depends(RcppArmadillo)]]
+using namespace std;
+using namespace arma;
+// [[Rcpp::export]]
+extern "C" SEXP rw_Metropolis_cpp(
+double sigma,
+double x0,
+int N){
+vec x(N, fill::zeros);
+x(0) = x0;
+vec u = randu<vec>(N);
+double k = 0.0;
+for (int i = 1; i < N; i++){
+double y = ::Rf_rnorm(x(i - 1), sigma);
+if ( u(i) <= exp(abs(x(i - 1))) / exp(abs(y)) ){
+x(i) = y;
+} else{
+x(i) = x(i - 1);
+++k;
+} }
+double accept_rate = 1 - (k / N);
+return Rcpp::List::create(
+Rcpp::Named("x") = x,
+Rcpp::Named("accept.rate") = accept_rate
+);
+} ' )
+
+```
+then, we look back at the code of R function below:
+```{r}
+#Construction of Laplace density function
+dL<-function(x){             
+  return(0.5*exp(-abs(x)))
+}
+
+#Construction of random walk Metropolis sampler 
+rw_Metropolis_r<- function(sigma, x0, N) {
+  x <- numeric(N)
+  x[1] <- x0
+  u <- runif(N)
+  k <- 0
+  for (i in 2:N) {
+    y <- rnorm(1, x[i-1], sigma)
+    if (u[i] <= (dL(y) / dL(x[i-1]))){
+      x[i] <- y
+    }
+    else {
+      x[i] <- x[i-1]
+      k <- k + 1
+      } 
+    }
+  return(list(x=x, k=k))
+}
+
+```
+
+finally,we bring in parameters,and compare the results of the two methods:
+```{r}
+sigma <- 0.3
+x0 <- 25
+N <- 2000
+r_result <- rw_Metropolis_r(sigma, x0, N)
+cpp_result <- rw_Metropolis_cpp(sigma, x0, N)
+
+```
+
+
+
+$2.$the “qqplot” to campare the random numbers generated by the two functions:
+```{r}
+par(mfrow=c(1,2))
+y <- ppoints(200)
+x1 <- quantile(r_result$x, y)
+qqplot(x1, r_result$x, pch=15, cex=0.5,xlab = "x", ylab = "y", main=" R")
+abline(0, 1)
+
+x2 <- quantile(cpp_result$x, y)
+qqplot(x2, cpp_result$x, pch=15, cex=0.5,xlab = "x", ylab = "y", main="Rcpp")
+abline(0, 1)
+```
+
+
+$3.$campare the computation time of the two functions:
+```{r warning=FALSE}
+library(microbenchmark)
+computation_time<- microbenchmark(rw.R=rw_Metropolis_r(sigma, x0, N),
+rw.Cpp=rw_Metropolis_cpp(sigma, x0, N))
+summary(computation_time)
+```
+
+
+$4.$Comments the results:
+
+We can see from the above results that it is obviously faster to use the RCP function than to use the R function, about 30 times faster
+
+
+
